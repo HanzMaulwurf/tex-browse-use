@@ -1,0 +1,11 @@
+{
+  "name": "tex-browse-use-mcp",
+  "version": "1.0.0",
+  "description": "MCP server exposing the TEX browse-use engine to Claude Code",
+  "type": "module",
+  "bin": { "tex-browse-use-mcp": "server.mjs" },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.8"
+  }
+}

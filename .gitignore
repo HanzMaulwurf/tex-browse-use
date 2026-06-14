@@ -1,0 +1,6 @@
+.env
+.env.*
+!.env.example
+.run/
+node_modules/
+*.log

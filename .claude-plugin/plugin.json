@@ -1,0 +1,6 @@
+{
+  "name": "tex-browse-use",
+  "description": "Browse-use for Claude Code: drive a real browser (vision + DOM + stealth fallback ladder) to operate any web app that has no usable API. Self-improving — learns and compiles skills.",
+  "version": "1.0.0",
+  "license": "MIT"
+}

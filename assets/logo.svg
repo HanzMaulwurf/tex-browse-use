@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="1200" height="420" role="img" aria-label="TEX — browse-use for Claude Code">
+  <defs>
+    <!-- Sky: deep indigo to near-black -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1A0B2E"/>
+      <stop offset="45%" stop-color="#160A26"/>
+      <stop offset="100%" stop-color="#0B0B1A"/>
+    </linearGradient>
+
+    <!-- Sun gradient: hot magenta to warm sunset orange -->
+    <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFD36E"/>
+      <stop offset="35%" stop-color="#FF8C42"/>
+      <stop offset="70%" stop-color="#FF5FA2"/>
+      <stop offset="100%" stop-color="#E83E8C"/>
+    </linearGradient>
+
+    <!-- Ground gradient -->
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1A0B2E"/>
+      <stop offset="100%" stop-color="#0B0B1A"/>
+    </linearGradient>
+
+    <!-- Chrome wordmark fill: warm sunset metal -->
+    <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="22%" stop-color="#FFD36E"/>
+      <stop offset="48%" stop-color="#FF8C42"/>
+      <stop offset="49%" stop-color="#FF5FA2"/>
+      <stop offset="74%" stop-color="#E83E8C"/>
+      <stop offset="100%" stop-color="#7B2FF7"/>
+    </linearGradient>
+
+    <!-- Horizon glow -->
+    <radialGradient id="horizonGlow" cx="50%" cy="100%" r="75%">
+      <stop offset="0%" stop-color="#FF5FA2" stop-opacity="0.55"/>
+      <stop offset="40%" stop-color="#E83E8C" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#E83E8C" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Neon glow filter -->
+    <filter id="neon" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Soft sun bloom -->
+    <filter id="bloom" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+
+    <!-- Subtle text bloom for chrome wordmark -->
+    <filter id="textGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Clip sun into horizontal scanline slices -->
+    <clipPath id="sunSlices">
+      <rect x="430" y="86"  width="340" height="20"/>
+      <rect x="430" y="112" width="340" height="16"/>
+      <rect x="430" y="134" width="340" height="13"/>
+      <rect x="430" y="153" width="340" height="10"/>
+      <rect x="430" y="169" width="340" height="8"/>
+      <rect x="430" y="183" width="340" height="6"/>
+      <rect x="430" y="195" width="340" height="5"/>
+      <rect x="430" y="0"   width="340" height="86"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background sky -->
+  <rect width="1200" height="420" fill="url(#sky)"/>
+
+  <!-- Starfield (sparse, upper area) -->
+  <g fill="#FFFFFF">
+    <circle cx="90"  cy="40"  r="1.3" opacity="0.8"/>
+    <circle cx="180" cy="80"  r="1"   opacity="0.5"/>
+    <circle cx="260" cy="36"  r="1.6" opacity="0.9"/>
+    <circle cx="330" cy="100" r="1"   opacity="0.4"/>
+    <circle cx="150" cy="140" r="1.2" opacity="0.6"/>
+    <circle cx="60"  cy="110" r="1"   opacity="0.5"/>
+    <circle cx="900" cy="50"  r="1.4" opacity="0.85"/>
+    <circle cx="980" cy="95"  r="1"   opacity="0.45"/>
+    <circle cx="1060" cy="40" r="1.6" opacity="0.9"/>
+    <circle cx="1130" cy="86" r="1.1" opacity="0.55"/>
+    <circle cx="1040" cy="150" r="1" opacity="0.4"/>
+    <circle cx="850" cy="120" r="1.2" opacity="0.6"/>
+    <circle cx="1150" cy="36" r="1"  opacity="0.5"/>
+    <circle cx="420" cy="60"  r="1"   opacity="0.5"/>
+    <circle cx="770" cy="70"  r="1.2" opacity="0.6"/>
+  </g>
+
+  <!-- The sun: bloom halo then sliced disc -->
+  <circle cx="600" cy="200" r="130" fill="#FF5FA2" opacity="0.35" filter="url(#bloom)"/>
+  <g clip-path="url(#sunSlices)">
+    <circle cx="600" cy="200" r="110" fill="url(#sun)"/>
+  </g>
+
+  <!-- Horizon glow band -->
+  <rect x="0" y="150" width="1200" height="120" fill="url(#horizonGlow)"/>
+
+  <!-- Ground / floor -->
+  <rect x="0" y="270" width="1200" height="150" fill="url(#ground)"/>
+  <rect x="0" y="268" width="1200" height="3" fill="#FF5FA2" opacity="0.9"/>
+
+  <!-- Perspective grid floor: vanishing to horizon center (600,270) -->
+  <g stroke="#E83E8C" stroke-width="1.4" opacity="0.75">
+    <!-- Vertical lines converging to vanishing point -->
+    <line x1="600" y1="270" x2="-560" y2="420"/>
+    <line x1="600" y1="270" x2="-220" y2="420"/>
+    <line x1="600" y1="270" x2="60"   y2="420"/>
+    <line x1="600" y1="270" x2="280"  y2="420"/>
+    <line x1="600" y1="270" x2="440"  y2="420"/>
+    <line x1="600" y1="270" x2="540"  y2="420"/>
+    <line x1="600" y1="270" x2="600"  y2="420"/>
+    <line x1="600" y1="270" x2="660"  y2="420"/>
+    <line x1="600" y1="270" x2="760"  y2="420"/>
+    <line x1="600" y1="270" x2="920"  y2="420"/>
+    <line x1="600" y1="270" x2="1140" y2="420"/>
+    <line x1="600" y1="270" x2="1420" y2="420"/>
+    <line x1="600" y1="270" x2="1760" y2="420"/>
+  </g>
+  <!-- Horizontal grid lines, spacing increases toward viewer -->
+  <g stroke="#21D4FD" stroke-width="1.2" opacity="0.55">
+    <line x1="0" y1="276" x2="1200" y2="276"/>
+    <line x1="0" y1="285" x2="1200" y2="285"/>
+    <line x1="0" y1="297" x2="1200" y2="297"/>
+    <line x1="0" y1="313" x2="1200" y2="313"/>
+    <line x1="0" y1="334" x2="1200" y2="334"/>
+    <line x1="0" y1="361" x2="1200" y2="361"/>
+    <line x1="0" y1="395" x2="1200" y2="395"/>
+  </g>
+
+  <!-- ===== TEX wordmark — chrome with 3D extrude + neon glow ===== -->
+  <g font-family="'Arial Black', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="900" text-anchor="middle">
+    <!-- neon back-glow -->
+    <text x="600" y="240" font-size="200" fill="#E83E8C" filter="url(#neon)" letter-spacing="14" opacity="0.85">TEX</text>
+    <!-- 3D extrude stack (offset copies, dark violet) -->
+    <text x="606" y="246" font-size="200" fill="#3A1A5E" letter-spacing="14">TEX</text>
+    <text x="605" y="245" font-size="200" fill="#4A2070" letter-spacing="14">TEX</text>
+    <text x="604" y="244" font-size="200" fill="#5A2585" letter-spacing="14">TEX</text>
+    <text x="603" y="243" font-size="200" fill="#6A2A9A" letter-spacing="14">TEX</text>
+    <text x="602" y="242" font-size="200" fill="#7B2FF7" letter-spacing="14">TEX</text>
+    <!-- chrome face -->
+    <text x="600" y="240" font-size="200" fill="url(#chrome)" stroke="#FF5FA2" stroke-width="1.5" letter-spacing="14" filter="url(#textGlow)">TEX</text>
+  </g>
+
+  <!-- Tagline -->
+  <text x="600" y="298" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="20" font-weight="bold" fill="#21D4FD" letter-spacing="2">browse-use for Claude Code</text>
+  <text x="600" y="324" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="16" fill="#FF8FC0" letter-spacing="3">operate any web app — no API required</text>
+
+  <rect x="1100" y="397" width="64" height="2" fill="#E83E8C" opacity="0.8"/>
+
+  <!-- Top scanline overlay (subtle CRT feel) -->
+  <g stroke="#0B0B1A" stroke-width="1" opacity="0.12">
+    <line x1="0" y1="6"   x2="1200" y2="6"/>
+    <line x1="0" y1="18"  x2="1200" y2="18"/>
+    <line x1="0" y1="30"  x2="1200" y2="30"/>
+    <line x1="0" y1="42"  x2="1200" y2="42"/>
+    <line x1="0" y1="54"  x2="1200" y2="54"/>
+    <line x1="0" y1="66"  x2="1200" y2="66"/>
+    <line x1="0" y1="78"  x2="1200" y2="78"/>
+    <line x1="0" y1="90"  x2="1200" y2="90"/>
+    <line x1="0" y1="102" x2="1200" y2="102"/>
+    <line x1="0" y1="114" x2="1200" y2="114"/>
+    <line x1="0" y1="126" x2="1200" y2="126"/>
+    <line x1="0" y1="138" x2="1200" y2="138"/>
+    <line x1="0" y1="150" x2="1200" y2="150"/>
+    <line x1="0" y1="162" x2="1200" y2="162"/>
+    <line x1="0" y1="174" x2="1200" y2="174"/>
+    <line x1="0" y1="186" x2="1200" y2="186"/>
+    <line x1="0" y1="198" x2="1200" y2="198"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="222" x2="1200" y2="222"/>
+    <line x1="0" y1="234" x2="1200" y2="234"/>
+    <line x1="0" y1="246" x2="1200" y2="246"/>
+    <line x1="0" y1="258" x2="1200" y2="258"/>
+  </g>
+</svg>

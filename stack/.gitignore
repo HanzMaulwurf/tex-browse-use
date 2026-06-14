@@ -1,0 +1,20 @@
+# secrets / state — never commit
+.env
+.env.*
+data/vault/
+data/sessions/
+data/skills/
+data/compiled/
+data/checkpoints/
+data/app-maps/
+data/calibration/
+data/chrome-profile-*/
+downloaded_files/
+# heavy / generated
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+/tmp/
+dist/
+*.log

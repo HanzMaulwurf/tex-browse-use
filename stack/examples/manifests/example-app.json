@@ -1,0 +1,42 @@
+{
+  "//": "Example app manifest — the ADVANCED, declarative way to teach TEX one app.",
+  "//2": "Most use needs none of this: just call browse_use(task, url) and let the agent figure it out.",
+  "//3": "A manifest pins a repeatable task to verified selectors + postconditions so it can run deterministically (and eventually compile to a $0 no-LLM replay). This one is fictional — replace appName/urls/coords with your own.",
+
+  "schemaVersion": 1,
+  "appName": "acme",
+  "displayName": "Acme Portal (example)",
+  "loginUrl": "https://app.example.com/login",
+  "dashboardUrl": "https://app.example.com/dashboard",
+  "auth": {
+    "type": "session+credentials",
+    "sessionFile": "data/sessions/acme.json",
+    "credentialsEnv": ".env.apps",
+    "emailKey": "ACME_EMAIL",
+    "passwordKey": "ACME_PASSWORD"
+  },
+  "viewport": { "width": 1280, "height": 900 },
+  "locale": "en-US",
+
+  "tasks": {
+    "export-report": {
+      "description": "Open the reports page and export the current month's report.",
+      "entryUrl": "https://app.example.com/reports",
+      "navigation": [
+        { "text": "Reports", "coord": [120, 40] },
+        { "text": "Monthly", "coord": [120, 90] }
+      ],
+      "requiredSelectors": ["export_button", "confirm_button"],
+      "optionalSelectors": ["date_range"],
+      "verify": [
+        {
+          "kind": "url",
+          "op": "contains",
+          "value": "/reports/export/done",
+          "description": "Export landed on the success page"
+        }
+      ],
+      "healing": { "maxRetries": 2, "allowDownshift": true, "escalateAfter": 3 }
+    }
+  }
+}
