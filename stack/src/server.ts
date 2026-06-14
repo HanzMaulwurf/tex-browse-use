@@ -16,20 +16,36 @@ const CUA_ROOT = process.env.CUA_ROOT || STACK_ROOT;
 const PYTHON_BIN = process.env.PYTHON_BIN || `${CUA_ROOT}/.venv/bin/python`;
 const COMPILED_DIR = process.env.COMPILED_DIR || `${CUA_ROOT}/data/compiled`;
 const A11Y_PORT = Number(process.env.A11Y_PORT) || 18805;
+const GATEWAY_URL = (process.env.TEX_GATEWAY_URL || 'http://127.0.0.1:18804').replace(/\/$/, '');
+
+/** Is the browser-use DOM gateway actually up? (capability honesty for /health) */
+async function domGatewayUp(): Promise<boolean> {
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 1500);
+    const res = await fetch(`${GATEWAY_URL}/health`, { signal: ctrl.signal });
+    clearTimeout(t);
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
 const app = new Hono();
 
 app.use('*', cors({ origin: '*' }));
 
 // Health check
 app.get('/health', async (c) => {
-  const stealth = await isStealthAvailable();
+  const [stealth, domUp] = await Promise.all([isStealthAvailable(), domGatewayUp()]);
   return c.json({
     status: 'healthy',
     service: 'tex-engine',
     version: '2.0.0',
     capabilities: {
       computerUse: 'bedrock-eu (eu-central-1) — vision/screenshot tier',
-      domTier: 'browser-use 0.12.x via gateway :18804 (/solve tries this first)',
+      domTier: domUp
+        ? `browser-use DOM/CDP agent (active, ${GATEWAY_URL})`
+        : 'unavailable (gateway down — run scripts/tex-up.sh to provision)',
       a11y: 'in-process live-page extraction (same browser the agent acts in)',
       playwright: 'chromium-headless (persistent)',
       stealth: stealth ? 'seleniumbase-uc (active)' : 'unavailable',

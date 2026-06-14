@@ -1,0 +1,11 @@
+# TEX DOM tier — Python deps for the browser-use gateway (stack/src/browser/unified.py).
+# Auto-installed into stack/.venv by scripts/tex-up.sh on first start.
+# Python 3.11+ (tested on 3.13).
+
+# DOM/CDP agent. Pinned: the gateway imports against the 0.12.x API
+# (browser_use.llm.aws.chat_anthropic.ChatAnthropicBedrock etc.).
+browser-use==0.12.9
+
+# Bedrock backend for browser-use's ChatAnthropicBedrock. NOT pulled in by
+# browser-use itself — without it the LLM call dies with "No module named 'botocore'".
+boto3>=1.34

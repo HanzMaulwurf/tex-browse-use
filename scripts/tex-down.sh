@@ -14,4 +14,16 @@ for f in "$RUN"/*.pid; do
   fi
   rm -f "$f"
 done
-[ "$stopped" = 1 ] || echo "nothing running (no pids in $RUN)"
+
+# Belt-and-suspenders: kill anything still listening on the engine/gateway ports
+# (covers orphans whose pidfile was lost — we've been bitten by that before).
+for port in "${PORT:-18802}" "${UNIFIED_PORT:-18804}"; do
+  pids="$(lsof -nP -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)"
+  if [ -n "$pids" ]; then
+    kill -9 $pids 2>/dev/null || true
+    echo "freed port $port (pids $pids)"
+    stopped=1
+  fi
+done
+
+[ "$stopped" = 1 ] || echo "nothing running (no pids in $RUN, ports clear)"
