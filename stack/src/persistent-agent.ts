@@ -24,7 +24,7 @@ import { learnSkillFromTask, getSkillContext } from './skills/skill-store.js';
 const MAX_STEPS = Number(process.env.MAX_STEPS) || 100;  // Erhöht: niemals aufgeben
 const MAX_RETRIES_PER_ACTION = 3;
 const MAX_STRATEGY_FALLBACKS = 3;
-const SLIDING_WINDOW = 9;
+const SLIDING_WINDOW = Number(process.env.SLIDING_WINDOW) || 5;
 
 export interface PersistentTaskResult {
   id: string;
@@ -207,6 +207,10 @@ Regeln:
 
     // VERIFICATION BACKBONE: completion must be proven by reading the world, not claimed.
     let verifyAttempts = 0;
+    // Re-login recovery must only fire AFTER we've genuinely been past the login page.
+    // Otherwise the initial login flow (we start ON a /login URL) is mistaken for an
+    // expired session and the agent loops forever re-navigating instead of filling the form.
+    let authenticatedOnce = false;
     const runVerifyGate = async (): Promise<'complete' | 'escalate' | 'retry'> => {
       const pcs = context?.verify;
       if (!pcs || pcs.length === 0) return 'complete'; // no postconditions → legacy behaviour
@@ -281,8 +285,12 @@ Regeln:
       }
 
       // Detect login needed → re-login (enhanced: URL check + position recovery)
-      const sessionExpired = detectLoginPage(thinking) || await detectSessionExpiredFromUrl();
-      if (sessionExpired && appName) {
+      const onLoginPage = await detectSessionExpiredFromUrl();
+      if (!onLoginPage) authenticatedOnce = true; // reached a real (post-login) page
+      const sessionExpired = detectLoginPage(thinking) || onLoginPage;
+      // Only recover if the session expired AFTER we were already authenticated — during the
+      // initial login the agent must be allowed to act (fill the form), not bounce in a loop.
+      if (sessionExpired && appName && authenticatedOnce) {
         result.reLogins++;
         const currentInfo = await getPageInfo().catch(() => ({ url: '', title: '' }));
         const resumeUrl = context?.resumeUrl || currentInfo.url || startUrl || '';

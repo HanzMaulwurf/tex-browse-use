@@ -3,8 +3,9 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { loadSession } from '../browser/session-manager.js';
+import { STACK_ROOT } from '../data-paths.js';
 
-const PYTHON = process.env.PYTHON_BIN || '/opt/computer-use-agent/.venv/bin/python';
+const PYTHON = process.env.PYTHON_BIN || path.join(STACK_ROOT, '.venv/bin/python');
 
 // Convert our saved SessionState -> Playwright storage_state JSON file.
 // Returns a temp file path the caller must let the runner clean up.

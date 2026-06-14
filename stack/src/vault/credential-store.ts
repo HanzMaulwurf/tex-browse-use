@@ -1,6 +1,7 @@
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+import { dataDir } from '../data-paths.js';
 
 /**
  * Encrypted Credential Store for App Logins
@@ -8,7 +9,7 @@ import path from 'node:path';
  * Supports: username/password, API keys, OAuth tokens, 2FA secrets
  */
 
-const VAULT_DIR = process.env.VAULT_DIR || '/opt/computer-use-agent/data/vault';
+const VAULT_DIR = process.env.VAULT_DIR || dataDir('vault');
 const VAULT_FILE = path.join(VAULT_DIR, 'credentials.enc');
 const ALGORITHM = 'aes-256-gcm';
 

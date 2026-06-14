@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { dataDir } from '../data-paths.js';
 
 /**
  * Persistent Browser Sessions
@@ -7,7 +8,7 @@ import path from 'node:path';
  * Nächster Task für dieselbe App: kein erneutes Einloggen nötig.
  */
 
-const SESSION_DIR = process.env.SESSION_DIR || '/opt/computer-use-agent/data/sessions';
+const SESSION_DIR = process.env.SESSION_DIR || dataDir('sessions');
 
 export interface SessionState {
   appName: string;

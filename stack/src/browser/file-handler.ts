@@ -1,14 +1,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import type { Page } from 'playwright';
+import { dataDir } from '../data-paths.js';
 
 /**
  * File Handling — Upload & Download für Browser-Automation
  * Belege hochladen, PDFs runterladen, Dateien transferieren
  */
 
-const DOWNLOAD_DIR = process.env.DOWNLOAD_DIR || '/opt/computer-use-agent/data/downloads';
-const UPLOAD_DIR = process.env.UPLOAD_DIR || '/opt/computer-use-agent/data/uploads';
+const DOWNLOAD_DIR = process.env.DOWNLOAD_DIR || dataDir('downloads');
+const UPLOAD_DIR = process.env.UPLOAD_DIR || dataDir('uploads');
 
 export function ensureDirs(): void {
   fs.mkdirSync(DOWNLOAD_DIR, { recursive: true });

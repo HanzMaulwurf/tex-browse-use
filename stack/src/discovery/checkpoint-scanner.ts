@@ -17,9 +17,9 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { dataDir } from '../data-paths.js';
 
-const CHECKPOINT_DIR = process.env.CHECKPOINT_DIR
-  || path.join(process.env.CUA_ROOT || '/opt/computer-use-agent', 'data/checkpoints');
+const CHECKPOINT_DIR = process.env.CHECKPOINT_DIR || dataDir('checkpoints');
 
 export interface ScanItem {
   id: string;

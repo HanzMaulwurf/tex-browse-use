@@ -9,9 +9,10 @@ import { addCredential, listCredentials, removeCredential } from './vault/creden
 import { listSkills } from './skills/skill-store.js';
 import { listSessions, deleteSession } from './browser/session-manager.js';
 import { sql } from './db.js';
+import { STACK_ROOT } from './data-paths.js';
 
 const PORT = Number(process.env.PORT) || 18802;
-const CUA_ROOT = process.env.CUA_ROOT || '/opt/computer-use-agent';
+const CUA_ROOT = process.env.CUA_ROOT || STACK_ROOT;
 const PYTHON_BIN = process.env.PYTHON_BIN || `${CUA_ROOT}/.venv/bin/python`;
 const COMPILED_DIR = process.env.COMPILED_DIR || `${CUA_ROOT}/data/compiled`;
 const A11Y_PORT = Number(process.env.A11Y_PORT) || 18805;

@@ -13,6 +13,28 @@ const client = new BedrockRuntimeClient({
 const MODEL_ID = process.env.BEDROCK_MODEL || 'eu.anthropic.claude-sonnet-4-6';
 
 /**
+ * Send a Bedrock command, surviving rate limits. On ThrottlingException /
+ * "Too many requests" we back off exponentially and retry the SAME call,
+ * so a transient per-minute throttle no longer kills the whole agent run.
+ */
+async function sendWithRetry(command: ConverseCommand, maxRetries = 6): Promise<any> {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await client.send(command);
+    } catch (e: any) {
+      const throttled =
+        e?.name === 'ThrottlingException' ||
+        e?.$metadata?.httpStatusCode === 429 ||
+        /too many requests|throttl|rate ?limit/i.test(e?.message || '');
+      if (!throttled || attempt >= maxRetries) throw e;
+      const delay = Math.min(20000, 1000 * 2 ** attempt) + Math.floor(Math.random() * 500);
+      console.log(`[bedrock] throttled — backoff retry ${attempt + 1}/${maxRetries} in ${delay}ms`);
+      await new Promise(r => setTimeout(r, delay));
+    }
+  }
+}
+
+/**
  * Send screenshot + task to Claude via Bedrock EU (Computer Use)
  * Data stays in eu-central-1 (Frankfurt) — DSGVO compliant
  */
@@ -65,7 +87,7 @@ export async function computerUseCall(
     }),
   }));
 
-  const response = await client.send(new ConverseCommand({
+  const response = await sendWithRetry(new ConverseCommand({
     modelId: MODEL_ID,
     messages: bedrockMessages,
     system: systemPrompt ? [{ text: systemPrompt }] : undefined,

@@ -12,8 +12,9 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { STACK_ROOT } from './data-paths.js';
 
-const CUA_ROOT = process.env.CUA_ROOT || '/opt/computer-use-agent';
+const CUA_ROOT = process.env.CUA_ROOT || STACK_ROOT;
 const COMPILED_DIR = process.env.COMPILED_DIR || path.join(CUA_ROOT, 'data/compiled');
 const SKILLS_DIR = process.env.SKILLS_DIR || path.join(CUA_ROOT, 'data/skills');
 

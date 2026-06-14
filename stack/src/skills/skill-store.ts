@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { dataDir } from '../data-paths.js';
 
 /**
  * Domain Skills — Self-Improving App Knowledge
@@ -18,7 +19,7 @@ import path from 'node:path';
  *     6. "Rechnung erstellen" klicken
  */
 
-const SKILLS_DIR = process.env.SKILLS_DIR || '/opt/computer-use-agent/data/skills';
+const SKILLS_DIR = process.env.SKILLS_DIR || dataDir('skills');
 
 export interface DomainSkill {
   id: string;
